@@ -20,7 +20,7 @@ public class ToDoListService {
         ToDoListRepository repository = ToDoListRepositoryLocal.getInstance();
         List<ToDoItem> lista=new ArrayList<>();
 
-        for (int i= repository.size()-1; i>=0; i--){
+        for (int i= 0; i< repository.size(); i++){
             lista.add(repository.get(i));
         }
 

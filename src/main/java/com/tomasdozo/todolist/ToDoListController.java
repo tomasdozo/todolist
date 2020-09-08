@@ -17,7 +17,8 @@ public class ToDoListController {
     @GetMapping ("/get")
     public List<ToDoItem> getMapping (){
         ToDoListService service=ToDoListService.getInstance();
-        return service.getLista();
+        List<ToDoItem> l=service.getLista();
+        return l;
     }
 
 
