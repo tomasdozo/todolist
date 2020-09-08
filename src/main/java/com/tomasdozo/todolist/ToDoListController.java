@@ -16,17 +16,8 @@ public class ToDoListController {
 
     @GetMapping ("/get")
     public List<ToDoItem> getMapping (){
-        ArrayList<ToDoItem> aux= new ArrayList<>();
-        ToDoItem item=new ToDoItem();
-        item.setIndex(0);item.setDone(false);item.setText("Cocinar cena");
-        aux.add(item);
-        item=new ToDoItem();
-        item.setIndex(1);item.setDone(false);item.setText("Shopping");
-        aux.add(item);
-        item=new ToDoItem();
-        item.setIndex(2);item.setDone(false);item.setText("Comprar patata");
-        aux.add(item);
-        return aux;
+        ToDoListService service=ToDoListService.getInstance();
+        return service.getLista();
     }
 
 

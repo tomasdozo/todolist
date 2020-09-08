@@ -10,6 +10,12 @@ public class ToDoItem {
         this.done = done;
     }
 
+    public ToDoItem(int index, String text, Boolean done) {
+        this.index = index;
+        this.text = text;
+        this.done = done;
+    }
+
     public ToDoItem() {
     }
 
