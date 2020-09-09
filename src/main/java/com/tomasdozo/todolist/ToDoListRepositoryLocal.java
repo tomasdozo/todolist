@@ -27,13 +27,13 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
 
     @Override
     public void set(ToDoItem item) {
-        datos.set(item.getIndex(), item);
+        datos.set(item.getId(), item);
         actualizarArchivo();
     }
 
     @Override
     public void add(ToDoItem item) {
-        item.setIndex(datos.size());
+        item.setId(datos.size());
         datos.add(item);
 
         actualizarArchivo();
@@ -77,9 +77,25 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
     }
 
     @Override
-    public void remove(ToDoItem item) {
-        datos.remove(item.getIndex());
+    public boolean remove(int id) {
+        int i=0;
+        boolean sucess=false;
+        ToDoItem aux;
+        if(!datos.isEmpty()){
+            aux=datos.get(i);
+            //noinspection ConstantConditions
+            while(i<datos.size()&&aux.getId()!=id){
+                i++;
+                aux=datos.get(i);
+            }
+            if(aux.getId()==id){
+                datos.remove(i);
+               sucess=true;
+            }
+        }
 
+        actualizarArchivo();
+        return sucess;
     }
 
     @Override

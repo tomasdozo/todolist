@@ -1,7 +1,6 @@
 package com.tomasdozo.todolist;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -10,11 +9,25 @@ import java.util.concurrent.atomic.AtomicLong;
 public class ToDoListController {
     private final AtomicLong counter = new AtomicLong();
 
-    @GetMapping ("/get")
+    @GetMapping  ("/tareas")
     public List<ToDoItem> getMapping (){
         ToDoListService service=ToDoListService.getInstance();
         return service.getLista();
     }
+
+    @PostMapping  ("/tareas")
+    public void postMapping (@RequestParam String text){
+        ToDoListService.getInstance().add(new ToDoItem(text));
+    }
+
+    @DeleteMapping ("/tareas")
+    public boolean deleteMapping (@RequestParam int id){
+        //ToDoListService.getInstance().delete(Integer.getInteger(id));
+        return ToDoListService.getInstance().delete(id);
+
+    }
+
+
 
 
 

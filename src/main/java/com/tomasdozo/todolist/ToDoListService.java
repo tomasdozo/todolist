@@ -26,4 +26,12 @@ public class ToDoListService {
 
         return lista;
     }
+
+    public void add(ToDoItem item) {
+        ToDoListRepositoryLocal.getInstance().add(item);
+    }
+
+    public boolean delete(int id) {
+        return ToDoListRepositoryLocal.getInstance().remove(id);
+    }
 }

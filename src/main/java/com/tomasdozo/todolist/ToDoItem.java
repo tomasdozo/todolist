@@ -1,30 +1,28 @@
 package com.tomasdozo.todolist;
 
-public class ToDoItem {
-    private int index;
+import java.io.Serializable;
+
+public class ToDoItem implements Serializable {
+    private int id;
     private String text;
     private Boolean done;
+    private static final long serialVersionUID = 1;
 
-    public ToDoItem(String text, Boolean done) {
+    public ToDoItem(String text) {
         this.text = text;
-        this.done = done;
-    }
-
-    public ToDoItem(int index, String text, Boolean done) {
-        this.index = index;
-        this.text = text;
-        this.done = done;
+        this.done = false;
+        this.id = 0;
     }
 
     public ToDoItem() {
     }
 
-    public int getIndex() {
-        return index;
+    public int getId() {
+        return id;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public void setId(int index) {
+        this.id = index;
     }
 
     public String getText() {
