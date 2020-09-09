@@ -2,6 +2,8 @@ package com.tomasdozo.todolist;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public abstract class ToDoListRepository {
 
@@ -10,5 +12,5 @@ public abstract class ToDoListRepository {
     public abstract void add (ToDoItem item);
     public abstract boolean remove (int id);
     public abstract int size ();
-    public abstract ToDoItem get(int index);
+    public abstract List<ToDoItem> get();
 }

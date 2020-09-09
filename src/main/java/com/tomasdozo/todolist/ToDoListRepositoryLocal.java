@@ -1,17 +1,16 @@
 package com.tomasdozo.todolist;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class ToDoListRepositoryLocal extends ToDoListRepository {
 
-    private ArrayList<ToDoItem> datos;
+    private List<ToDoItem> datos;
     private static final ToDoListRepositoryLocal instance = new ToDoListRepositoryLocal();
 
     private ToDoListRepositoryLocal(){
         datos=new ArrayList<>();
-        cargarArchivo();
+        loadFile();
 
 
     }
@@ -20,8 +19,20 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
         return instance;
     }
 
-    public ToDoItem get(int index){
-        return datos.get(index);
+    public List<ToDoItem> get(){
+
+        List<ToDoItem> lista=new ArrayList<>();
+        ToDoItem aux;
+
+
+        for (ToDoItem toDoItem : datos) {
+            aux=new ToDoItem(toDoItem.getText(),toDoItem.getId(),toDoItem.getDone());
+            lista.add(aux);
+        }
+
+        Collections.reverse(lista);
+
+        return lista;
     }
     @Override
     public ToDoItem search(int id) {
@@ -58,14 +69,14 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
                 sucess=true;
             }
         }
-        actualizarArchivo();
+        updateFile();
         return sucess;
     }
 
     @Override
     public void add(ToDoItem item) {
         //Asignar un id aleatorio al nuevo item
-        item.setId(new Random().nextInt());
+        item.setId(Math.abs(new Random().nextInt()));
 
         //Verificar que el nuevo id sea unico y no se encuentre en la lista
         if(!datos.isEmpty()){
@@ -89,10 +100,10 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
 
         //Verificado que es unico se añade el nuevo item y se actualiza la base
         datos.add(item);
-        actualizarArchivo();
+        updateFile();
     }
 
-    private void actualizarArchivo(){
+    private void updateFile(){
         //Guardar la lista
         try {
             FileOutputStream fos = new FileOutputStream(new File(".").getAbsolutePath() + File.separator + "datos");
@@ -112,7 +123,7 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
     }
 
     @SuppressWarnings("unchecked")
-    private void cargarArchivo(){
+    private void loadFile(){
         //Cargar la lista
         try {
             FileInputStream in= new FileInputStream (new File(".").getAbsolutePath() + File.separator + "datos");
@@ -125,7 +136,7 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
             ois.close();
         }catch (FileNotFoundException e){
             System.out.println("Base de Datos no encontrada, creando nueva...");
-            actualizarArchivo();
+            updateFile();
             System.out.println("Nueva base de datos creada.");
         }
         catch (IOException e) {
@@ -151,7 +162,7 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
             }
         }
 
-        actualizarArchivo();
+        updateFile();
         return sucess;
     }
 

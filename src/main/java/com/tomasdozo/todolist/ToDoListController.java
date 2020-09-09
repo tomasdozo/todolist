@@ -6,22 +6,23 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
 @RestController
+@RequestMapping ("/tareas")
 public class ToDoListController {
     private final AtomicLong counter = new AtomicLong();
 
-    @GetMapping  ("/tareas")
+    @GetMapping
     public List<ToDoItem> getToDoItems (){
         ToDoListService service=ToDoListService.getInstance();
-        return service.getLista();
+        return service.getList();
     }
 
-    @PostMapping  ("/tareas")
-    public String addToDoItem (@RequestParam String text){
-        ToDoListService.getInstance().add(new ToDoItem(text));
+    @PostMapping
+    public String addToDoItem (@RequestBody ToDoItem item){
+        ToDoListService.getInstance().add(new ToDoItem(item.getText()));
         return "Success";
     }
 
-    @PutMapping ("/tareas")
+    @PutMapping
     public String check (@RequestParam int id, @RequestParam boolean done){
         if(ToDoListService.getInstance().check(id,done)){
           return "Success"   ;
@@ -31,7 +32,7 @@ public class ToDoListController {
         }
     }
 
-    @DeleteMapping ("/tareas/{id}")
+    @DeleteMapping ("/{id}")
     public String delToDoItem (@PathVariable int id){
        if(ToDoListService.getInstance().delete(id)){
            return "Success";
@@ -41,9 +42,9 @@ public class ToDoListController {
        }
     }
 
-    @PutMapping ("/tareas/{id}")
-    public String modToDoItem (@PathVariable int id, @RequestParam String text){
-        if(ToDoListService.getInstance().modify(id,text)){
+    @PutMapping ("/{id}")
+    public String modToDoItem (@PathVariable int id, @RequestBody ToDoItem item){
+        if(ToDoListService.getInstance().modify(id,item.getText())){
             return "Success"   ;
         }
         else{

@@ -14,7 +14,15 @@ public class ToDoItem implements Serializable {
         this.id = 0;
     }
 
+
+
     public ToDoItem() {
+    }
+
+    public ToDoItem(String text, int id, Boolean done) {
+        this.text=text;
+        this.id=id;
+        this.done=done;
     }
 
     public int getId() {
