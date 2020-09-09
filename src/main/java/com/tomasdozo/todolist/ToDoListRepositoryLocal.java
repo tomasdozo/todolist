@@ -123,8 +123,12 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
                 e.printStackTrace();
             }
             ois.close();
-        } catch (IOException e) {
-
+        }catch (FileNotFoundException e){
+            System.out.println("Base de Datos no encontrada, creando nueva...");
+            actualizarArchivo();
+            System.out.println("Nueva base de datos creada.");
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
