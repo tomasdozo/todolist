@@ -2,6 +2,7 @@ package com.tomasdozo.todolist;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ToDoListRepositoryLocal extends ToDoListRepository {
 
@@ -33,9 +34,31 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
 
     @Override
     public void add(ToDoItem item) {
-        item.setId(datos.size());
-        datos.add(item);
+        //Asignar un id aleatorio al nuevo item
+        item.setId(new Random().nextInt());
 
+        //Verificar que el nuevo id sea unico y no se encuentre en la lista
+        if(!datos.isEmpty()){
+            boolean idUnico=false;
+            ToDoItem aux;
+            while(!idUnico) {
+                int i=0;
+                aux= datos.get(i);
+                while (i < datos.size() && aux.getId()!=item.getId()) {
+                    aux = datos.get(i);
+                    i++;
+                }
+                if(aux.getId()!=item.getId()){
+                    idUnico=true;
+                }
+                else{
+                    item.setId(new Random().nextInt());
+                }
+            }
+        }
+
+        //Verificado que es unico se añade el nuevo item y se actualiza la base
+        datos.add(item);
         actualizarArchivo();
     }
 
@@ -83,13 +106,13 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
         ToDoItem aux;
         if(!datos.isEmpty()){
             aux=datos.get(i);
-            //noinspection ConstantConditions
+            i++;
             while(i<datos.size()&&aux.getId()!=id){
-                i++;
                 aux=datos.get(i);
+                i++;
             }
             if(aux.getId()==id){
-                datos.remove(i);
+                datos.remove(i-1);
                sucess=true;
             }
         }

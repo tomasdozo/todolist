@@ -21,10 +21,14 @@ public class ToDoListController {
     }
 
     @DeleteMapping ("/tareas")
-    public boolean deleteMapping (@RequestParam int id){
+    public String deleteMapping (@RequestParam int id){
         //ToDoListService.getInstance().delete(Integer.getInteger(id));
-        return ToDoListService.getInstance().delete(id);
-
+       if(ToDoListService.getInstance().delete(id)){
+           return "Sucess";
+       }
+       else{
+           return "Not Found";
+       }
     }
 
 
