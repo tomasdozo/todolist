@@ -20,16 +20,46 @@ public class ToDoListRepositoryLocal extends ToDoListRepository {
         return instance;
     }
 
-    @Override
-    public ToDoItem get(int index) {
-
+    public ToDoItem get(int index){
         return datos.get(index);
+    }
+    @Override
+    public ToDoItem search(int id) {
+        ToDoItem aux=null;
+        if(!datos.isEmpty()){
+            int i =0;
+            aux=datos.get(i);
+            i++;
+            while(i<datos.size()&&aux.getId()!=id){
+                aux=datos.get(i);
+                i++;
+            }
+            if(aux.getId()!=id){
+                aux=null;
+            }
+        }
+        return aux;
     }
 
     @Override
-    public void set(ToDoItem item) {
-        datos.set(item.getId(), item);
+    public boolean set(ToDoItem item) {
+        int i=0;
+        boolean sucess=false;
+        ToDoItem aux;
+        if(!datos.isEmpty()){
+            aux=datos.get(i);
+            i++;
+            while(i<datos.size()&&aux.getId()!=item.getId()){
+                aux=datos.get(i);
+                i++;
+            }
+            if(aux.getId()==item.getId()){
+                datos.set(i-1,item);
+                sucess=true;
+            }
+        }
         actualizarArchivo();
+        return sucess;
     }
 
     @Override

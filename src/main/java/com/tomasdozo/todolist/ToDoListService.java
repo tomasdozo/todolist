@@ -34,4 +34,26 @@ public class ToDoListService {
     public boolean delete(int id) {
         return ToDoListRepositoryLocal.getInstance().remove(id);
     }
+
+    public boolean check (int id, boolean done){
+        ToDoItem aux=ToDoListRepositoryLocal.getInstance().search(id);
+        if(aux!=null){
+            aux.setDone(done);
+            return ToDoListRepositoryLocal.getInstance().set(aux);
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean modify (int id, String text){
+        ToDoItem aux=ToDoListRepositoryLocal.getInstance().search(id);
+        if(aux!=null){
+            aux.setText(text);
+            return ToDoListRepositoryLocal.getInstance().set(aux);
+        }
+        else{
+            return false;
+        }
+    }
 }
