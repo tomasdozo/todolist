@@ -1,14 +1,15 @@
 package com.tomasdozo.todolist;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 
+@SuppressWarnings("unused")
 @RestController
 @RequestMapping ("/tareas")
 public class ToDoListController {
-    private final AtomicLong counter = new AtomicLong();
 
     @GetMapping
     public List<ToDoItem> getToDoItems (){
@@ -17,38 +18,44 @@ public class ToDoListController {
     }
 
     @PostMapping
-    public String addToDoItem (@RequestBody ToDoItem item){
-        ToDoListService.getInstance().add(new ToDoItem(item.getText()));
-        return "Success";
+    public ResponseEntity<String> addToDoItem (@RequestBody ToDoItem item){
+        if(item.getText()!=null) {
+            ToDoListService.getInstance().add(new ToDoItem(item.getText()));
+            return new ResponseEntity<>("Item added succesfully",HttpStatus.OK);
+        }
+        else
+        {
+            return new ResponseEntity<>("Item not valid",HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping
-    public String check (@RequestParam int id, @RequestParam boolean done){
+    public ResponseEntity<String> check (@RequestParam int id, @RequestParam boolean done){
         if(ToDoListService.getInstance().check(id,done)){
-          return "Success"   ;
+            return new ResponseEntity<>("Succesfull",HttpStatus.OK);
         }
         else{
-            return "Not Found";
+            return new ResponseEntity<>("Item not found",HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping ("/{id}")
-    public String delToDoItem (@PathVariable int id){
+    public ResponseEntity<String> delToDoItem (@PathVariable int id){
        if(ToDoListService.getInstance().delete(id)){
-           return "Success";
+           return new ResponseEntity<>("Item deleted succesfully",HttpStatus.OK);
        }
        else{
-           return "Not Found";
+           return new ResponseEntity<>("Item not found",HttpStatus.NOT_FOUND);
        }
     }
 
     @PutMapping ("/{id}")
-    public String modToDoItem (@PathVariable int id, @RequestBody ToDoItem item){
+    public ResponseEntity<String> modToDoItem  (@PathVariable int id, @RequestBody ToDoItem item){
         if(ToDoListService.getInstance().modify(id,item.getText())){
-            return "Success"   ;
+            return new ResponseEntity<>("Item modified successfully",HttpStatus.OK);
         }
         else{
-            return "Not Found";
+            return new ResponseEntity<>("Item not found",HttpStatus.NOT_FOUND);
         }
     }
 

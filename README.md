@@ -4,10 +4,14 @@ Software Requirements:
   
 Endpoints:
   localhost:8080/tareas
-    -GET devuelve los items de la lista
-    -POST key text String. Crea un nuevo item con con el el texto de la key text
-    -PUT key done boolean, key id int. Setea el estado del item con id de la key id a el valor de la key done
+    -GET devuelve JSON con los items de la lista. 
+		
+    -POST Crea un nuevo item, recibe un JSON con la key "text" donde recibe el texto de la lista.
+	
+    -PUT Setea el estado de un item. Recibe dos keys, la key "id" con el int que identifica al item de la lista, y la key "done" con el boolean del estado del checkbox.
+		
+	
 
-  localhost:8080/tareas/{id} id es el id del item a trabajar
-    -PUT key text String. Actualiza el texto del item con id id con el valor de text
-    -DELETE Borra el item con id id
+  localhost:8080/tareas/{id} id es el int que identifica al item a trabajar
+    -PUT Actualiza el texto de un item. Recibe un JSON con la key "text" donde esta el nuevo texto, e identifica a que item es por el endpoint.
+    -DELETE Borra un item. Identifica cual tiene que borrar por el endpoint.
